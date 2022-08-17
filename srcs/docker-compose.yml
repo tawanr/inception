@@ -1,0 +1,66 @@
+services:
+    
+    ft_nginx:
+        build: requirements/nginx/
+        container_name: ft_nginx
+        ports:
+            - '80:80'
+            - '443:443'
+        volumes:
+            - '~/data/website:/var/www/html'
+        depends_on:
+            - ft_wordpress
+        links:
+            - ft_wordpress
+        networks:
+            - frontend
+        restart: always
+
+    ft_mariadb:
+        build: requirements/mariadb
+        container_name: ft_mariadb
+        ports:
+            - '3306:3306'
+        volumes:
+            - '~/data/database:/var/lib/mysql'
+        environment:
+            - MYSQL_ROOT_PASSWORD=${SQL_ROOT_PASSWORD}
+            - MYSQL_DATABASE=wordpress
+            - MYSQL_ROOT_USER=root
+            - WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
+            - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
+            - WORDPRESS_DB_PASS=${WORDPRESS_DB_PASS}
+        networks:
+            - database
+        restart: always
+
+    ft_wordpress:
+        build: requirements/wordpress
+        container_name: ft_wordpress
+        ports:
+            - '9000:9000'
+        volumes:
+            - '~/data/website:/var/www/html'
+        environment:
+            - WORDPRESS_DB_HOST=${DB_HOST}
+            - WORDPRESS_TABLE_PREFIX=wp_
+            - WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
+            - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
+            - WORDPRESS_DB_PASS=${WORDPRESS_DB_PASS}
+            - DOMAIN_NAME=${DOMAIN_NAME}
+        depends_on:
+            - ft_mariadb
+        links:
+            - ft_mariadb
+        networks:
+            - frontend
+            - database
+        restart: always
+
+networks:
+    frontend:
+        name: frontend
+        driver: bridge
+    database:
+        name: database
+        driver: bridge
