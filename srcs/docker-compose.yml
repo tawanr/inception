@@ -47,6 +47,11 @@ services:
             - WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
             - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
             - WORDPRESS_DB_PASS=${WORDPRESS_DB_PASS}
+            - WORDPRESS_EMAIL=${WORDPRESS_EMAIL}
+            - WORDPRESS_USER=${WORDPRESS_USER}
+            - WORDPRESS_PASS=${WORDPRESS_PASS}
+            - INCEPTION_URL=${INCEPTION_URL}
+            - INCEPTION_TITLE=${INCEPTION_TITLE}
             - DOMAIN_NAME=${DOMAIN_NAME}
         depends_on:
             - ft_mariadb
