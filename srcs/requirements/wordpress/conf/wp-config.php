@@ -99,5 +99,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 /** Sets up WordPress vars and included files. */
 require_once ABSPATH . 'wp-settings.php';
 
-define('WP_HOME','http://tratanat.42.fr');
-define('WP_SITEURL','http://tratanat.42.fr');
+define('WP_HOME','https://tratanat.42.fr/wordpress');
+define('WP_SITEURL','https://tratanat.42.fr/wordpress');
+
+define('WP_REDIS_HOST','ft_redis');
+define('WP_REDIS_PORT',6379);
+define('WP_REDIS_TIMEOUT',1);
+define('WP_REDIS_READ_TIMEOUT',1);
+define('WP_REDIS_DATABASE',0);

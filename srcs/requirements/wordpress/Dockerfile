@@ -15,7 +15,10 @@ RUN apt update -y && apt upgrade -y && apt install -y \
 		php-soap \
 		php-xml \
 		php-xmlrpc \
-		php-zip
+		php-zip \
+		php-redis \
+		redis \
+		sendmail
 
 COPY conf/php-fpm.conf /etc/php/7.3/fpm/php-fpm.conf
 COPY conf/www.conf /etc/php/7.3/fpm/pool.d/
