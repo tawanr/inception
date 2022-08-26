@@ -14,8 +14,11 @@ cd /tmp/
 wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
+cd /var/www/html
+wget https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1.php
+mv adminer-4.8.1.php adminer.php
 cd /var/www/html/wordpress
-wp core download --allow-root
+wp core download --quiet --allow-root
 wp config create --dbname=${WORDPRESS_DB_NAME} --dbhost=${WORDPRESS_DB_HOST} --dbuser=${WORDPRESS_DB_USER} --dbpass=${WORDPRESS_DB_PASS} --allow-root
 
 echo "Created config at $(pwd)."
@@ -33,4 +36,3 @@ wp redis enable --allow-root
 
 service php7.3-fpm start
 tail -f /dev/null
-

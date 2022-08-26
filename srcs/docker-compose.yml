@@ -72,6 +72,24 @@ services:
             - database
         restart: always
 
+    ft_ftp:
+        build: requirements/bonus/ftp
+        container_name: ft_ftp
+        ports:
+            - '21:21'
+            - '30000-30010:30000-30010'
+        volumes:
+            - '~/data/website:/var/www/html/'
+        networks:
+            - database
+            - frontend
+        depends_on:
+            - ft_wordpress
+        restart: always
+        environment:
+            FTP_USER: ${FTP_USER}
+            FTP_PASSWORD: ${FTP_PASSWORD}
+
 networks:
     frontend:
         name: frontend
