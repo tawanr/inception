@@ -90,6 +90,20 @@ services:
             FTP_USER: ${FTP_USER}
             FTP_PASSWORD: ${FTP_PASSWORD}
 
+    ft_portainer:
+        image: portainer/portainer-ce:latest
+        container_name: ft_portainer
+        ports:
+            - '8000:8000'
+            - '9443:9443'
+        volumes:
+            - '~/data/portainer:/data'
+            - '/var/run/docker.sock:/var/run/docker.sock'
+        networks:
+            - frontend
+        restart: always
+
+
 networks:
     frontend:
         name: frontend
