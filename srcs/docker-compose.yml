@@ -1,5 +1,24 @@
+volumes:
+    website:
+        driver: local
+        driver_opts:
+            o: bind
+            type: none
+            device: ~/data/website
+    db_data:
+        driver: local
+        driver_opts:
+            o: bind
+            type: none
+            device: ~/data/database
+    portainer:
+        driver: local
+        driver_opts:
+            o: bind
+            type: none
+            device: ~/data/portainer
+
 services:
-    
     ft_nginx:
         build: requirements/nginx/
         container_name: ft_nginx
@@ -7,7 +26,7 @@ services:
             - '80:80'
             - '443:443'
         volumes:
-            - '~/data/website:/var/www/html'
+            - website:/var/www/html
         depends_on:
             - ft_wordpress
         links:
@@ -22,9 +41,9 @@ services:
         ports:
             - '3306:3306'
         volumes:
-            - '~/data/database:/var/lib/mysql'
+            - db_data:/var/lib/mysql
         environment:
-            - MYSQL_ROOT_PASSWORD=${SQL_ROOT_PASSWORD}
+            - SQL_ROOT_PASS=${SQL_ROOT_PASSWORD}
             - MYSQL_DATABASE=wordpress
             - MYSQL_ROOT_USER=root
             - WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
@@ -40,7 +59,7 @@ services:
         ports:
             - '9000:9000'
         volumes:
-            - '~/data/website:/var/www/html'
+            - website:/var/www/html
         environment:
             - WORDPRESS_DB_HOST=${DB_HOST}
             - WORDPRESS_TABLE_PREFIX=wp_
@@ -50,6 +69,9 @@ services:
             - WORDPRESS_EMAIL=${WORDPRESS_EMAIL}
             - WORDPRESS_USER=${WORDPRESS_USER}
             - WORDPRESS_PASS=${WORDPRESS_PASS}
+            - WORDPRESS_ADMIN_EMAIL=${WORDPRESS_ADMIN_EMAIL}
+            - WORDPRESS_ADMIN_USER=${WORDPRESS_ADMIN_USER}
+            - WORDPRESS_ADMIN_PASS=${WORDPRESS_ADMIN_PASS}
             - INCEPTION_URL=${INCEPTION_URL}
             - INCEPTION_TITLE=${INCEPTION_TITLE}
             - DOMAIN_NAME=${DOMAIN_NAME}
@@ -79,7 +101,7 @@ services:
             - '21:21'
             - '30000-30010:30000-30010'
         volumes:
-            - '~/data/website:/var/www/html/'
+            - website:/var/www/html/
         networks:
             - database
             - frontend
@@ -97,12 +119,11 @@ services:
             - '8000:8000'
             - '9443:9443'
         volumes:
-            - '~/data/portainer:/data'
+            - portainer:/data
             - '/var/run/docker.sock:/var/run/docker.sock'
         networks:
             - frontend
         restart: always
-
 
 networks:
     frontend:

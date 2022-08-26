@@ -22,7 +22,8 @@ RUN apt update -y && apt upgrade -y && apt install -y \
 
 COPY conf/php-fpm.conf /etc/php/7.3/fpm/php-fpm.conf
 COPY conf/www.conf /etc/php/7.3/fpm/pool.d/
-COPY ./tools /var/www
+COPY tools/configure.sh /var/www/
+COPY tools/index.html /tmp/
 
 RUN chmod +x /var/www/configure.sh
 
