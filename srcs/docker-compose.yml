@@ -4,19 +4,19 @@ volumes:
         driver_opts:
             o: bind
             type: none
-            device: ~/data/website
+            device: ${HOME}/data/website
     db_data:
         driver: local
         driver_opts:
             o: bind
             type: none
-            device: ~/data/database
+            device: ${HOME}/data/database
     portainer:
         driver: local
         driver_opts:
             o: bind
             type: none
-            device: ~/data/portainer
+            device: ${HOME}/data/portainer
 
 services:
     ft_nginx:

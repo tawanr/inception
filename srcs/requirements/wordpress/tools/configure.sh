@@ -37,6 +37,5 @@ wp plugin install redis-cache --activate --allow-root
 wp plugin update --all --allow-root
 wp redis enable --allow-root
 
-service php7.3-fpm start
 echo "Wordpress is running..."
-tail -f /dev/null
+php-fpm7.3 --nodaemonize --allow-to-run-as-root
